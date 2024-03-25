@@ -17,14 +17,14 @@ targetCompatibility = 1.8
 
 //create a single Jar with all dependencies
 task fatJar(type: Jar) {
-     manifest {
-     	      attributes 'Implementation-Title': 'Gradle Jar File Example',
-	      		 'Implementation-Version': version,
-			 'Main-Class': 'strata.conex.TestingEngine'
-     }
-     baseName = project.name + '-all'
-     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-     with jar
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+                'Implementation-Version': version,
+                'Main-Class': 'strata.conex.TestingEngine'
+    }
+    archiveBaseName.set("${project.name}-all")
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
 
 repositories {
@@ -32,12 +32,12 @@ repositories {
 }
 
 dependencies {
-    compile 'org.mongodb:mongodb-driver:3.6.0'
-    //compile 'org.mongodb:mongodb-driver:3.1.0'
-    compile 'org.apache.zookeeper:zookeeper:3.4.11'
-    compile 'com.datastax.oss:java-driver-core:4.3.1'
-    compile 'com.datastax.oss:java-driver-query-builder:4.3.1'
-    compile 'com.datastax.oss:java-driver-mapper-runtime:4.3.1'
+    implementation 'org.mongodb:mongodb-driver:3.6.0'
+    //implementation 'org.mongodb:mongodb-driver:3.1.0'
+    implementation 'org.apache.zookeeper:zookeeper:3.4.11'
+    implementation 'com.datastax.oss:java-driver-core:4.3.1'
+    implementation 'com.datastax.oss:java-driver-query-builder:4.3.1'
+    implementation 'com.datastax.oss:java-driver-mapper-runtime:4.3.1'
 }
 
 [compileJava, compileTestJava]*.options*.compilerArgs = ['-Xlint:all']
